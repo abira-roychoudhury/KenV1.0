@@ -23,7 +23,7 @@ def main_page():
 	parameters = req['result']['parameters']
 	action = req['result']['action']
 
-	speechTosend = actions.handler["action"](parameters)
+	speechTosend = actions.handler[action](parameters)
 
 	req = {
 			"speech": speechTosend,
