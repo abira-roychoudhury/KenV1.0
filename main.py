@@ -13,9 +13,9 @@ app = Flask(__name__)
 @app.route("/", methods=['POST'])
 def main_page():
 
-	speech = ["H.R.861 - To terminate the Environmental Protection Agency.","S.2266 - H-1B and L-1 Visa Reform Act of 2015","H.R.285 - Healthcare Tax Relief and Mandate Repeal Act"]
+	speech = [unicode("H.R.861 - To terminate the Environmental Protection Agency.", "utf-8"),unicode("S.2266 - H-1B and L-1 Visa Reform Act of 2015", "utf-8"),unicode("H.R.285 - Healthcare Tax Relief and Mandate Repeal Act", "utf-8")]
 	 
-	speechTosend =unicode(speech[randint(0,2)], "utf-8") 
+	speechTosend =speech[randint(0,2)] 
 
 	req = {
 			"speech": speechTosend,
