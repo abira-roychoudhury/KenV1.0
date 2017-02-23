@@ -6,7 +6,6 @@ from flask import render_template
 from flask import request, url_for, make_response
 import json
 import logging
-from random import randint
 import actions
 
 app = Flask(__name__)
