@@ -7,15 +7,23 @@ from flask import request, url_for, make_response
 import json
 import logging
 from random import randint
+import actions
 
 app = Flask(__name__)
 
 @app.route("/", methods=['POST'])
 def main_page():
 
-	speech = ["H.R.861 To terminate the Enviornmental Protection Agency.","S.2266 H1B and L1 Visa Reform Act of 2015.","H.R.285 Healthcare Tax Relief and Mandate Repeal Act."]
-	 
-	speechTosend =speech[randint(0,2)] 
+	logging.info("inside POST")
+	req = request.get_json(silent=True, force=True)
+
+	logging.info(type(req) )
+	logging.info(req)
+
+	parameters = req['result']['parameters']
+	action = req['result']['action']
+
+	speechTosend = actions.handler["action"](parameters)
 
 	req = {
 			"speech": speechTosend,
