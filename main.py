@@ -13,7 +13,7 @@ app = Flask(__name__)
 @app.route("/", methods=['POST'])
 def main_page():
 
-	speech = ["H.R.861 To terminate the Environmental Protection Agency.","S.2266  H1B and L1 Visa Reform Act of 2015 ","H.R.285 Healthcare Tax Relief and Mandate Repeal Act"]
+	speech = ["H.R.861 To terminate the Enviornmental Protection Agency.","S.2266 H1B and L1 Visa Reform Act of 2015.","H.R.285 Healthcare Tax Relief and Mandate Repeal Act."]
 	 
 	speechTosend =speech[randint(0,2)] 
 
