@@ -1,4 +1,6 @@
 
+from random import randint
+
 def LawFind(parameters):
 
 	speech = ["H.R.861 To terminate the Enviornmental Protection Agency.","S.2266 H1B and L1 Visa Reform Act of 2015.","H.R.285 Healthcare Tax Relief and Mandate Repeal Act."]
