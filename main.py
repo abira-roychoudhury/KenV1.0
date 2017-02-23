@@ -15,8 +15,8 @@ def main_page():
 
 	speech = ["H.R.861 - To terminate the Environmental Protection Agency.","S.2266 - H-1B and L-1 Visa Reform Act of 2015","H.R.285 - Healthcare Tax Relief and Mandate Repeal Act"]
 	 
-	speechTosend = speech[randint(0,2)]
-	
+	speechTosend =unicode(speech[randint(0,2)], "utf-8") 
+
 	req = {
 			"speech": speechTosend,
 			"displayText": speechTosend,
