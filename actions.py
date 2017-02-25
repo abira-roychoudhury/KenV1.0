@@ -46,9 +46,10 @@ def LawMoreInformation(parameters):
 def MoreLaw(parameters):
 	logging.info("inside NextLaw")
 
-	LawId = parameters["LawId"]
+	CurrentLawId = parameters["LawId"]
 
 	#fetch next law 
+	LawId = 123 #next laws Id
 
 	response = "Here is next Law."
 	
