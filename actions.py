@@ -35,7 +35,7 @@ def LawMoreInformation(parameters):
 
 	if True:#laws exists:
 		response = response + " Do you want to see some more laws." 
-		contextOut = [{"name":"MoreLaw", "lifespan" : 10, "parameters" : {"LawId" : parameters["LawId"]} }]
+		contextOut = [{"name":"MoreLaw", "lifespan" : 1, "parameters" : {"LawId" : parameters["LawId"]} }]
 	else:
 		response = "Thank you" #stop conversation
 		contextOut = []
@@ -53,7 +53,7 @@ def MoreLaw(parameters):
 
 	response = "Here is next Law."
 	
-	return {"response":response+" Do you want more information about this law?", "contextOut":[{"name":"UserAnswer","lifespan":10, "parameters":{"LawId":LawId}}]}
+	return {"response":response+" Do you want more information about this law?", "contextOut":[{"name":"UserAnswer","lifespan":1, "parameters":{"LawId":LawId}}]}
 
 	
 handler = {
