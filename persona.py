@@ -22,10 +22,10 @@ def updateProfile(access_token, conn):
 
     for i in profile_load['likes']['data']:
       if (likes is None):
-        likes = i['category']
+        likes = i['name']
 
       else:
-        likes = likes + '/' + i['category'] 
+        likes = likes + '/' + i['name'] 
 
     x = conn.cursor()
     result = None
