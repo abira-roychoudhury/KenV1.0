@@ -1,37 +1,32 @@
 from random import randint
 import logging
 
-def LawFind(parameters):
+def LawFind(parameters, db):
 	logging.info("LawFind")
 
 	#from dict of lawa fetched from DB 
+	cursor = db.cursor()
 
-	if parameters["LawType"] : 
+	logging.info("cursor built in LawFind")
 
-		speech = {"Environment" : "H.R.861 To terminate the Environmental Protection Agency.",
-			"Immigration" : "S.2266 H1B and L1 Visa Reform Act of 2015.",
-			"Health Care" : "H.R.285 Healthcare Tax Relief and Mandate Repeal Act."}
-		response = ""
+	if session["profile_json"]:
+		logging.info(str(session["profile_json"]))
 
-		for law in parameters["LawType"]:
-			response = response + " This is what I found about "+str(law)+" : "+str(speech[law])
-			LawId = 123
-	
-	else:
-		LawId = 123
-		speech = ["H.R.861 To terminate the Enviornmental Protection Agency.","S.2266 H1B and L1 Visa Reform Act of 2015.","H.R.285 Healthcare Tax Relief and Mandate Repeal Act."]
-		response = speech[randint(0,2)]
+	LawId = 123
+	speech = ["H.R.861 To terminate the Enviornmental Protection Agency.","S.2266 H1B and L1 Visa Reform Act of 2015.","H.R.285 Healthcare Tax Relief and Mandate Repeal Act."]
+	response = speech[randint(0,2)]
 
 	logging.info("response from LawFind: "+response)
 	return {"response":response+" Do you want more information about this law?", "contextOut":[{"name":"UserAnswer","lifespan":10, "parameters":{"LawId" : LawId }}]}
 
-def LawMoreInformation(parameters):
+def LawMoreInformation(parameters, db):
 	logging.info("inside LawMoreInformation")
 
 	if parameters["MoreInfo"] == "yes":
 		#fetch more info
 		response = "fetch more info from DB."
 	else:
+		#set to not useful
 		response = ""
 
 	#check DB for more laws 
@@ -48,7 +43,7 @@ def LawMoreInformation(parameters):
 	return {"response":response, "contextOut":contextOut}
 
 
-def MoreLaw(parameters):
+def MoreLaw(parameters, db):
 	logging.info("inside NextLaw")
 
 	CurrentLawId = parameters["LawId"]
