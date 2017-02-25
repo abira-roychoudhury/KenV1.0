@@ -11,7 +11,7 @@ def LawFind(parameters, fbid, db):
 
 	logging.info("fbid : "+str(fbid))
 
-	cursor.execute("SELECT lawId, title  FROM STAGING_VIEW WHERE facebookid = '%s' AND lawListened = 0 ORDER BY lawRelevance DESC" % (str(fbid)) )
+	cursor.execute("SELECT lawId, title, personid  FROM STAGING_VIEW WHERE facebookid = '%s' AND lawListened = 0 ORDER BY lawRelevance DESC" % (str(fbid)) )
 
 	count = cursor.rowcount
 
@@ -22,7 +22,7 @@ def LawFind(parameters, fbid, db):
 		LawId = int(row[0])
 
 		try :
-			cursor.execute("UPDATE USER_LAWS_STAGING SET LawListened = 1 WHERE id='%d'" %( int(LawId) ))
+			cursor.execute("UPDATE USER_LAWS_STAGING SET LawLsitened = 1 WHERE lawId='%d' AND personId = '%d'" %( int(LawId), int(row[2]) ))
 			db.commit()
 		except:
 			db.rollback()
@@ -33,7 +33,7 @@ def LawFind(parameters, fbid, db):
 		response = "Could not find any relevant laws for you." #QUERY
 		
 	logging.info("response from LawFind: "+response)
-	return {"response":response+" Do you want more information about this law?", "contextOut":[{"name":"UserAnswer","lifespan":10, "parameters":{"LawId" : LawId }}]}
+	return {"response":response+" Do you want more information about this law?", "contextOut":[{"name":"UserAnswer","lifespan":10, "parameters":{"LawId" : LawId , "PersonId" : row[2]}}]}
 
 def LawMoreInformation(parameters, fbid, db):
 	logging.info("inside LawMoreInformation")
@@ -50,7 +50,7 @@ def LawMoreInformation(parameters, fbid, db):
 		response = row[0]
 
 		try :
-			cursor.execute("UPDATE USER_LAWS_STAGING SET lawUseful = 1 WHERE id='%d'" %( int(LawId) )) 
+			cursor.execute("UPDATE USER_LAWS_STAGING SET LawLsitened = 1 WHERE lawId='%d' AND personId = '%d'" %( int(LawId), int(parameters["PersonId"]) ))
 			db.commit()
 		except:
 			db.rollback()
@@ -83,7 +83,7 @@ def MoreLaw(parameters, fbid, db):
 	cursor = db.cursor()
 	logging.info("Cursor bulit in MoreLaw")
 
-	cursor.execute("SELECT lawId, title  FROM STAGING_VIEW WHERE facebookid = '%s' AND lawListened = 0 ORDER BY lawRelevance DESC" % (str(fbid)) )
+	cursor.execute("SELECT lawId, title, personid FROM STAGING_VIEW WHERE facebookid = '%s' AND lawListened = 0 ORDER BY lawRelevance DESC" % (str(fbid)) )
 
 	count = cursor.rowcount
 
@@ -92,7 +92,7 @@ def MoreLaw(parameters, fbid, db):
 	LawId = int(row[0])
 
 	try :
-		cursor.execute("UPDATE USER_LAWS_STAGING SET LawLsitened = 1 WHERE id='%d'" %( int(LawId) ))
+		cursor.execute("UPDATE USER_LAWS_STAGING SET LawLsitened = 1 WHERE lawId='%d' AND personId = '%d'" %( int(LawId), int(row[2]) ))
 		db.commit()
 	except:
 		db.rollback()
