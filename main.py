@@ -28,6 +28,8 @@ def main_page():
 	access_token = req['originalRequest']['data']['user']['access_token']
 	logging.info(access_token)
 
+	logging.info(str(session))
+
 	if not session["profile_json"]:
 		profile_json = requests.get("https://graph.facebook.com/me?fields=id,name,email,about,birthday,education,hometown,likes,location,relationship_status,family&access_token="+access_token)
 		session["profile_json"] = profile_json.json()

@@ -1,5 +1,6 @@
 from random import randint
 import logging
+from flask import session
 
 def LawFind(parameters, db):
 	logging.info("LawFind")
