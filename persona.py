@@ -15,7 +15,7 @@ def updateProfile(access_token, conn):
     work = profile_load['work']
     if not (work is None):
         isProfessional = '1'
-  likes = None
+    likes = None
     for i in interests:
         if (likes is None):
             likes = i['category']
@@ -119,4 +119,4 @@ def updateProfile(access_token, conn):
             #print e
             conn.rollback()
 
-  return profile_load['id']
+    return profile_load['id']
