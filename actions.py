@@ -4,6 +4,8 @@ import logging
 def LawFind(parameters):
 	logging.info("LawFind")
 
+	#from dict of lawa fetched from DB 
+
 	if parameters["LawType"] : 
 
 		speech = {"Environment" : "H.R.861 To terminate the Environmental Protection Agency.",
@@ -16,7 +18,7 @@ def LawFind(parameters):
 			LawId = 123
 	
 	else:
-
+		LawId = 123
 		speech = ["H.R.861 To terminate the Enviornmental Protection Agency.","S.2266 H1B and L1 Visa Reform Act of 2015.","H.R.285 Healthcare Tax Relief and Mandate Repeal Act."]
 		response = speech[randint(0,2)]
 
