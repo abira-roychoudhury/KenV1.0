@@ -31,7 +31,7 @@ def main_page():
 	#logging.info(str(session))
 
 	profile_json = requests.get("https://graph.facebook.com/me?fields=id,name,email,about,birthday,education,hometown,likes,location,relationship_status,family&access_token="+access_token)
-	session["profile_json"] = profile_json.json()
+	profile_json = profile_json.json()
 	logging.info(profile_json)
 
 	fbid = profile_json["id"]
