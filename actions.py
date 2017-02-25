@@ -20,6 +20,7 @@ def LawFind(parameters):
 		speech = ["H.R.861 To terminate the Enviornmental Protection Agency.","S.2266 H1B and L1 Visa Reform Act of 2015.","H.R.285 Healthcare Tax Relief and Mandate Repeal Act."]
 		response = speech[randint(0,2)]
 
+	logging.info("response from LawFind: "+response)
 	return {"response":response+" Do you want more information about this law?", "contextOut":[{"name":"UserAnswer","lifespan":10, "parameters":{"LawId" : LawId }}]}
 
 def LawMoreInformation(parameters):
@@ -40,6 +41,8 @@ def LawMoreInformation(parameters):
 		response = "Thank you" #stop conversation
 		contextOut = []
 
+	logging.info("response from LawMoreInformation: "+response)
+
 	return {"response":response, "contextOut":contextOut}
 
 
@@ -52,7 +55,8 @@ def MoreLaw(parameters):
 	LawId = 123 #next laws Id
 
 	response = "Here is next Law."
-	
+
+	logging.info("response from MoreLaw: "+response)	
 	return {"response":response+" Do you want more information about this law?", "contextOut":[{"name":"UserAnswer","lifespan":1, "parameters":{"LawId":LawId}}]}
 
 	
