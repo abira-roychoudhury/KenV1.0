@@ -1,9 +1,12 @@
 import requests
 import json
+import logging
 
 def updateProfile(access_token, conn):
     profile = requests.get("https://graph.facebook.com/me?fields=id,name,gender,email,about,birthday,education,hometown,likes,location,relationship_status,family,work&access_token=" + access_token)
     profile=profile.json()
+
+    logging.info(profile)
   
     #interests = graph.get_connections(id="me", connection_name="likes")['data']
     formatted_profile = json.dumps(profile)
@@ -20,6 +23,7 @@ def updateProfile(access_token, conn):
     for i in profile_load['likes']['data']:
       if (likes is None):
         likes = i['category']
+
       else:
         likes = likes + '/' + i['category'] 
 
