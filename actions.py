@@ -33,7 +33,7 @@ def LawMoreInformation(parameters):
 
 	#check DB for more laws 
 
-	if laws exists:
+	if True:#laws exists:
 		response = response + " Do you want to see some more laws." 
 		contextOut = [{"name":"MoreLaw", "lifespan" : 10, "parameters" : {"LawId" : parameters["LawId"]} }]
 	else:
