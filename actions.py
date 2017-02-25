@@ -9,6 +9,8 @@ def LawFind(parameters, fbid, db):
 
 	logging.info("cursor built in LawFind")
 
+	logging.info("fbid : "+str(fbid))
+
 	cursor.execute("SELECT lawId, title  FROM STAGING_VIEW WHERE facebookid = '%s' AND lawListened = 0 ORDER BY lawRelevance DESC" % (str(fbid)) )
 
 	count = cursor.rowcount
