@@ -11,7 +11,7 @@ def LawFind(parameters, fbid, db):
 
 	cursor.execute("SELECT lawId, title  FROM STAGING_VIEW WHERE facebookid = '%s' AND lawListened = 0 ORDER BY lawRelevance DESC" % (str(fbid)) )
 
-	count = cursor.rowcount()
+	count = cursor.rowcount
 
 	if count > 0:
 		
@@ -83,7 +83,7 @@ def MoreLaw(parameters, fbid, db):
 
 	cursor.execute("SELECT lawId, title  FROM STAGING_VIEW WHERE facebookid = '%s' AND lawListened = 0 ORDER BY lawRelevance DESC" % (str(fbid)) )
 
-	count = cursor.rowcount()
+	count = cursor.rowcount
 
 	row = cursor.fetchone()
 
