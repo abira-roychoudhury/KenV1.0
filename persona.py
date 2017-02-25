@@ -30,7 +30,7 @@ def updateProfile(access_token, conn):
     x = conn.cursor()
     result = None
     try:
-        result = x.execute("SELECT facebookid from PERSONS where facebookid=%s",profile_load['id'])
+        result = x.execute("SELECT facebookid from PERSONS where email=%s",profile_load['email'])
 
     except Exception as e:
         #print e
