@@ -32,10 +32,10 @@ def main_page():
 	#database connection 
 	dbconnection = db.connect_to_cloudsql()
 
-    profile = requests.get("https://graph.facebook.com/me?fields=id,name,email,work,gender,about,birthday,education,hometown,likes,location,relationship_status,family&access_token="+access_token)
-    logging.info(profile.json())
+	profile = requests.get("https://graph.facebook.com/me?fields=id,name,email,work,gender,about,birthday,education,hometown,likes,location,relationship_status,family&access_token="+access_token)
+	logging.info(profile.json())
 
-    profile = profile.json()
+	profile = profile.json()
 
 	fbid = profile["id"]
 
