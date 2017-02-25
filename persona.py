@@ -1,6 +1,7 @@
 #import facebook
 import requests
 import json
+import logging
 
 def updateProfile(access_token, conn):
     #graph = facebook.GraphAPI(object)
