@@ -16,12 +16,13 @@ def updateProfile(access_token, conn):
     if not (work is None):
         isProfessional = '1'
     likes = None
-    for i in interests:
-        if (likes is None):
-            likes = i['category']
-        else:
-            likes = likes + '/' + i['category']
-      
+
+    for i in profile_load['likes']['data']:
+      if (likes is None):
+        likes = i['category']
+      else:
+        likes = likes + '/' + i['category'] 
+
     x = conn.cursor()
     result = None
     try:
