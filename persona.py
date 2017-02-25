@@ -1,28 +1,11 @@
-#import facebook
 import requests
 import json
-import logging
 
 def updateProfile(access_token, conn):
-    #graph = facebook.GraphAPI(object)
-    
-
-    profile = requests.get("https://graph.facebook.com/me?fields=id,name,email,work,gender,about,birthday,education,hometown,likes,location,relationship_status,family&access_token="+access_token)
-    logging.info(profile.json())
-
-    profile = profile.json()
-    #profile = graph.get_object("me")
+    profile = requests.get("https://graph.facebook.com/me?fields=id,name,gender,email,about,birthday,education,hometown,likes,location,relationship_status,family,work&access_token=" + object)
+    profile=profile.json()
+  
     #interests = graph.get_connections(id="me", connection_name="likes")['data']
-    
-    interests = []
-    likes = None
-    for i in interests:
-        if (likes is None):
-            likes = i['category']
-        else:
-            likes = likes + '/' + i['category']
-
-
     formatted_profile = json.dumps(profile)
     profile_load = json.loads(formatted_profile)
     location = profile_load['location']['name']
@@ -32,7 +15,13 @@ def updateProfile(access_token, conn):
     work = profile_load['work']
     if not (work is None):
         isProfessional = '1'
-
+  likes = None
+    for i in interests:
+        if (likes is None):
+            likes = i['category']
+        else:
+            likes = likes + '/' + i['category']
+      
     x = conn.cursor()
     result = None
     try:
@@ -103,6 +92,7 @@ def updateProfile(access_token, conn):
                     `gender` = %s,
                     `facebookid` = %s,
                     `civil` = %s,
+                    `kids` = %s,
                     `email` = %s,
                     `isProfessional` = %s,
                     `hometown_state` = %s,
@@ -118,6 +108,7 @@ def updateProfile(access_token, conn):
                                 profile_load['gender'],
                                 profile_load['id'],
                                 profile_load['relationship_status'],
+                                '2',
                                 profile_load['email'],
                                 isProfessional,
                                 homeTown.split(',')[1],
@@ -128,4 +119,4 @@ def updateProfile(access_token, conn):
             #print e
             conn.rollback()
 
-    return profile_load['id']
+  return profile_load['id']
