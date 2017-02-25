@@ -7,6 +7,7 @@ from flask import request, url_for, make_response
 import json
 import logging
 import actions
+import requests
 
 app = Flask(__name__)
 
@@ -21,13 +22,21 @@ def main_page():
 
 	parameters = req['result']['parameters']
 	action = req['result']['action']
+	
+	# Reading the access token now
+	access_token = req['originalRequest']['data']['user']['access_token']
+	logging.info(access_token)
+
+	profile_json = requests.get("https://graph.facebook.com/me?fields=id,name,email,about,birthday,education,hometown,likes,location,relationship_status,family&access_token="+access_token)
+	logging.info(profile_json.json())
 
 	speechTosend = actions.handler[action](parameters)
 
 	req = {
-			"speech": speechTosend,
-			"displayText": speechTosend,
-			"data": {"speech": speechTosend},
+			"speech": speechTosend["response"],
+			"displayText": speechTosend["response"],
+			"data": {"speech": speechTosend["response"]},
+			"contextOut": speechTosend["contextOut"]
 		}
 		
 	req = json.dumps(req, indent=4)
