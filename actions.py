@@ -1,8 +1,7 @@
 from random import randint
 import logging
-from flask import session
 
-def LawFind(parameters, db):
+def LawFind(parameters, fbid, db):
 	logging.info("LawFind")
 
 	#from dict of lawa fetched from DB 
@@ -10,33 +9,65 @@ def LawFind(parameters, db):
 
 	logging.info("cursor built in LawFind")
 
-	if session["profile_json"]:
-		logging.info(str(session["profile_json"]))
+	cursor.execute("SELECT lawId, title  FROM STAGING_VIEW WHERE facebookid = '%s' AND lawListened = 0 ORDER BY lawRelevance DESC" % (str(fbid)) )
 
-	LawId = 123
-	speech = ["H.R.861 To terminate the Enviornmental Protection Agency.","S.2266 H1B and L1 Visa Reform Act of 2015.","H.R.285 Healthcare Tax Relief and Mandate Repeal Act."]
-	response = speech[randint(0,2)]
+	count = cursor.rowcount()
 
+	if count > 0:
+		
+		row = cursor.fetchone()
+	
+		LawId = int(row[0])
+
+		try :
+			cursor.execute("UPDATE USER_LAWS_STAGING SET LawListened = 1 WHERE id='%d'" %( int(LawId) ))
+			db.commit()
+		except:
+			db.rollback()
+
+		response = str(row[1])
+
+	else:
+		response = "Could not find any relevant laws for you." #QUERY
+		
 	logging.info("response from LawFind: "+response)
 	return {"response":response+" Do you want more information about this law?", "contextOut":[{"name":"UserAnswer","lifespan":10, "parameters":{"LawId" : LawId }}]}
 
-def LawMoreInformation(parameters, db):
+def LawMoreInformation(parameters, fbid, db):
 	logging.info("inside LawMoreInformation")
+	cursor = db.cursor()
+	logging.info("Cursor bulit in LawMoreInformation")
 
 	if parameters["MoreInfo"] == "yes":
 		#fetch more info
-		response = "fetch more info from DB."
+
+		cursor.execute("SELECT summary from LAWS WHERE lawId = '%d'" %(int(parameters['LawId'])))
+
+		row = cursor.fetchone()
+
+		response = row[0]
+
+		try :
+			cursor.execute("UPDATE USER_LAWS_STAGING SET lawUseful = 1 WHERE id='%d'" %( int(LawId) )) 
+			db.commit()
+		except:
+			db.rollback()
+
 	else:
 		#set to not useful
-		response = ""
+		response = "Ok."
 
 	#check DB for more laws 
 
-	if True:#laws exists:
+	cursor.execute("SELECT lawId  FROM STAGING_VIEW WHERE facebookid = '%s' AND lawListened = 0 ORDER BY lawRelevance DESC" % (str(fbid)) )
+
+	count = cursor.rowcount
+
+	if count > 0:#laws exists:
 		response = response + " Do you want to see some more laws." 
-		contextOut = [{"name":"MoreLaw", "lifespan" : 1, "parameters" : {"LawId" : parameters["LawId"]} }]
+		contextOut = [{"name":"MoreLaw", "lifespan" : 1, "parameters" : {} }]
 	else:
-		response = "Thank you" #stop conversation
+		response = response + "Thank you" #stop conversation
 		contextOut = []
 
 	logging.info("response from LawMoreInformation: "+response)
@@ -44,17 +75,30 @@ def LawMoreInformation(parameters, db):
 	return {"response":response, "contextOut":contextOut}
 
 
-def MoreLaw(parameters, db):
+def MoreLaw(parameters, fbid, db):
 	logging.info("inside NextLaw")
 
-	CurrentLawId = parameters["LawId"]
+	cursor = db.cursor()
+	logging.info("Cursor bulit in MoreLaw")
 
-	#fetch next law 
-	LawId = 123 #next laws Id
+	cursor.execute("SELECT lawId, title  FROM STAGING_VIEW WHERE facebookid = '%s' AND lawListened = 0 ORDER BY lawRelevance DESC" % (str(fbid)) )
 
-	response = "Here is next Law."
+	count = cursor.rowcount()
+
+	row = cursor.fetchone()
+
+	LawId = int(row[0])
+
+	try :
+		cursor.execute("UPDATE USER_LAWS_STAGING SET LawLsitened = 1 WHERE id='%d'" %( int(LawId) ))
+		db.commit()
+	except:
+		db.rollback()
+
+	response = str(row[1])
 
 	logging.info("response from MoreLaw: "+response)	
+
 	return {"response":response+" Do you want more information about this law?", "contextOut":[{"name":"UserAnswer","lifespan":1, "parameters":{"LawId":LawId}}]}
 
 	

@@ -3,7 +3,7 @@ import os.path
 import sys
 from flask import Flask
 from flask import render_template
-from flask import request, url_for, make_response, session
+from flask import request, url_for, make_response
 import json
 import logging
 import actions
@@ -28,17 +28,18 @@ def main_page():
 	access_token = req['originalRequest']['data']['user']['access_token']
 	logging.info(access_token)
 
-	logging.info(str(session))
+	#logging.info(str(session))
 
-	if not session["profile_json"]:
-		profile_json = requests.get("https://graph.facebook.com/me?fields=id,name,email,about,birthday,education,hometown,likes,location,relationship_status,family&access_token="+access_token)
-		session["profile_json"] = profile_json.json()
-		logging.info(profile_json)
+	profile_json = requests.get("https://graph.facebook.com/me?fields=id,name,email,about,birthday,education,hometown,likes,location,relationship_status,family&access_token="+access_token)
+	session["profile_json"] = profile_json.json()
+	logging.info(profile_json)
+
+	fbid = profile_json["id"]
 
 	#database connection 
 	dbconnection = db.connect_to_cloudsql()
 
-	speechTosend = actions.handler[action](parameters, dbconnection)
+	speechTosend = actions.handler[action](parameters, fbid, dbconnection)
 
 	req = {
 			"speech": speechTosend["response"],
