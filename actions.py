@@ -30,7 +30,12 @@ def LawMoreInformation(parameters):
 		#fetch more info
 		response = "fetch more info from DB."
 	else:
-		response = ""
+		response = "Thank you"
+		contextOut = []
+		
+		logging.info("response from LawMoreInformation: "+response)
+
+		return {"response":response, "contextOut":contextOut}
 
 	#check DB for more laws 
 
