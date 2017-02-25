@@ -9,6 +9,7 @@ import logging
 import actions
 import requests
 import dbconnect as db 
+import persona
 
 app = Flask(__name__)
 
@@ -28,16 +29,12 @@ def main_page():
 	access_token = req['originalRequest']['data']['user']['access_token']
 	logging.info(access_token)
 
-	#logging.info(str(session))
-
-	profile_json = requests.get("https://graph.facebook.com/me?fields=id,name,email,about,birthday,education,hometown,likes,location,relationship_status,family&access_token="+access_token)
-	profile_json = profile_json.json()
-	logging.info(profile_json)
-
-	fbid = profile_json["id"]
-
 	#database connection 
 	dbconnection = db.connect_to_cloudsql()
+
+	fbid = persona.updateProfile(access_token,dbconnection)
+
+	logging.info("fbid : "+str(fbid))
 
 	speechTosend = actions.handler[action](parameters, fbid, dbconnection)
 
