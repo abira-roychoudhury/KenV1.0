@@ -22,7 +22,7 @@ def LawFind(parameters, fbid, db):
 		LawId = int(row[0])
 
 		try :
-			cursor.execute("UPDATE USER_LAWS_STAGING SET LawLsitened = 1 WHERE lawId='%d' AND personId = '%d'" %( int(LawId), int(row[2]) ))
+			cursor.execute("UPDATE USER_LAWS_STAGING SET LawListened = 1 WHERE lawId='%d' AND personId = '%d'" %( int(LawId), int(row[2]) ))
 			db.commit()
 		except:
 			db.rollback()
@@ -50,7 +50,7 @@ def LawMoreInformation(parameters, fbid, db):
 		response = row[0]
 
 		try :
-			cursor.execute("UPDATE USER_LAWS_STAGING SET LawLsitened = 1 WHERE lawId='%d' AND personId = '%d'" %( int(LawId), int(parameters["PersonId"]) ))
+			cursor.execute("UPDATE USER_LAWS_STAGING SET LawListened = 1 WHERE lawId='%d' AND personId = '%d'" %( int(LawId), int(parameters["PersonId"]) ))
 			db.commit()
 		except:
 			db.rollback()
@@ -92,7 +92,7 @@ def MoreLaw(parameters, fbid, db):
 	LawId = int(row[0])
 
 	try :
-		cursor.execute("UPDATE USER_LAWS_STAGING SET LawLsitened = 1 WHERE lawId='%d' AND personId = '%d'" %( int(LawId), int(row[2]) ))
+		cursor.execute("UPDATE USER_LAWS_STAGING SET LawListened = 1 WHERE lawId='%d' AND personId = '%d'" %( int(LawId), int(row[2]) ))
 		db.commit()
 	except:
 		db.rollback()
