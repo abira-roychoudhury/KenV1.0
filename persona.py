@@ -1,10 +1,19 @@
-import facebook
+#import facebook
+import requests
 import json
 
 def updateProfile(access_token, conn):
-    graph = facebook.GraphAPI(object)
-    profile = graph.get_object("me")
-    interests = graph.get_connections(id="me", connection_name="likes")['data']
+    #graph = facebook.GraphAPI(object)
+    
+
+    profile = requests.get("https://graph.facebook.com/me?fields=id,name,email,about,birthday,education,hometown,likes,location,relationship_status,family&access_token="+access_token)
+    logging.info(profile.json())
+
+    profile = profile.json()
+    #profile = graph.get_object("me")
+    #interests = graph.get_connections(id="me", connection_name="likes")['data']
+    
+    interests = []
     likes = None
     for i in interests:
         if (likes is None):
