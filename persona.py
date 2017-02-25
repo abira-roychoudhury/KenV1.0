@@ -2,7 +2,7 @@ import requests
 import json
 
 def updateProfile(access_token, conn):
-    profile = requests.get("https://graph.facebook.com/me?fields=id,name,gender,email,about,birthday,education,hometown,likes,location,relationship_status,family,work&access_token=" + object)
+    profile = requests.get("https://graph.facebook.com/me?fields=id,name,gender,email,about,birthday,education,hometown,likes,location,relationship_status,family,work&access_token=" + access_token)
     profile=profile.json()
   
     #interests = graph.get_connections(id="me", connection_name="likes")['data']
