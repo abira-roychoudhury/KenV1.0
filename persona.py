@@ -7,7 +7,7 @@ def updateProfile(access_token, conn):
     #graph = facebook.GraphAPI(object)
     
 
-    profile = requests.get("https://graph.facebook.com/me?fields=id,name,email,work,about,birthday,education,hometown,likes,location,relationship_status,family&access_token="+access_token)
+    profile = requests.get("https://graph.facebook.com/me?fields=id,name,email,work,gender,about,birthday,education,hometown,likes,location,relationship_status,family&access_token="+access_token)
     logging.info(profile.json())
 
     profile = profile.json()
