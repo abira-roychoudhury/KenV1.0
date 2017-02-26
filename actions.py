@@ -28,13 +28,16 @@ def LawFind(parameters, fbid, db):
 			db.rollback()
 
 		response = str(row[1])
+		
+		logging.info("response from LawFind: "+response)
+		return {"response":response+" Do you want more information about this law?", "contextOut":[{"name":"UserAnswer","lifespan":10, "parameters":{"LawId" : LawId , "PersonId" : row[2]}}]}
 
 	else:
-		response = "Could not find any relevant laws for you." #QUERY
+		response = "There are no relevant laws for you. Thank you"
+		logging.info("response from LawFind: "+response)
+		return {"response":response, "contextOut":[]}
 		
-	logging.info("response from LawFind: "+response)
-	return {"response":response+" Do you want more information about this law?", "contextOut":[{"name":"UserAnswer","lifespan":10, "parameters":{"LawId" : LawId , "PersonId" : row[2]}}]}
-
+	
 def LawMoreInformation(parameters, fbid, db):
 	logging.info("inside LawMoreInformation")
 	cursor = db.cursor()
