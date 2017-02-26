@@ -33,7 +33,7 @@ def LawFind(parameters, fbid, db):
 		return {"response":response+" Do you want more information about this law?", "contextOut":[{"name":"UserAnswer","lifespan":10, "parameters":{"LawId" : LawId , "PersonId" : row[2]}}]}
 
 	else:
-		response = "There are no relevant laws for you. Thank you"
+		response = "There are no relevant laws for you."
 		logging.info("response from LawFind: "+response)
 		return {"response":response, "contextOut":[]}
 		
@@ -69,10 +69,10 @@ def LawMoreInformation(parameters, fbid, db):
 	count = cursor.rowcount
 
 	if count > 0:#laws exists:
-		response = response + " Do you want to see some more laws." 
+		response = response + " Do you want to see some more laws?" 
 		contextOut = [{"name":"MoreLaw", "lifespan" : 1, "parameters" : {} }]
 	else:
-		response = response + "Thank you" #stop conversation
+		response = response #stop conversation
 		contextOut = []
 
 	logging.info("response from LawMoreInformation: "+response)
