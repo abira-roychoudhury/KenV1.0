@@ -53,7 +53,7 @@ def LawMoreInformation(parameters, fbid, db):
 		response = row[0]
 
 		try :
-			cursor.execute("UPDATE USER_LAWS_STAGING SET lawUseful = 1 WHERE lawId='%d' AND personId = '%d'" %( int(LawId), int(parameters["PersonId"]) ))
+			cursor.execute("UPDATE USER_LAWS_STAGING SET lawUseful = 1 WHERE lawId='%d' AND personId = '%d'" %( int(parameters['LawId']), int(parameters["PersonId"]) ))
 			db.commit()
 		except:
 			db.rollback()
