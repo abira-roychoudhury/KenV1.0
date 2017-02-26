@@ -30,7 +30,7 @@ def LawFind(parameters, fbid, db):
 		response = str(row[1])
 		
 		logging.info("response from LawFind: "+response)
-		return {"response":response+" Do you want more information about this law?", "contextOut":[{"name":"UserAnswer","lifespan":10, "parameters":{"LawId" : LawId , "PersonId" : row[2]}}]}
+		return {"response":response+". Do you want more information about this law?", "contextOut":[{"name":"UserAnswer","lifespan":10, "parameters":{"LawId" : LawId , "PersonId" : row[2]}}]}
 
 	else:
 		response = "There are no relevant laws for you."
@@ -59,8 +59,7 @@ def LawMoreInformation(parameters, fbid, db):
 			db.rollback()
 
 	else:
-		#set to not useful
-		response = "Ok. There are no more relevant laws for you."
+		response = "Ok."
 
 	#check DB for more laws 
 
@@ -69,10 +68,10 @@ def LawMoreInformation(parameters, fbid, db):
 	count = cursor.rowcount
 
 	if count > 0:#laws exists:
-		response = response + " Do you want to see some more laws?" 
+		response = response + ". Do you want to see some more laws?" 
 		contextOut = [{"name":"MoreLaw", "lifespan" : 1, "parameters" : {} }]
 	else:
-		response = response #stop conversation
+		response = response + " There are no more relevant laws for you."#stop conversation
 		contextOut = []
 
 	logging.info("response from LawMoreInformation: "+response)
@@ -104,7 +103,7 @@ def MoreLaw(parameters, fbid, db):
 
 	logging.info("response from MoreLaw: "+response)	
 
-	return {"response":response+" Do you want more information about this law?", "contextOut":[{"name":"UserAnswer","lifespan":1, "parameters":{"LawId":LawId}}]}
+	return {"response":response+". Do you want more information about this law?", "contextOut":[{"name":"UserAnswer","lifespan":1, "parameters":{"LawId":LawId}}]}
 
 	
 handler = {
